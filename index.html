@@ -14,7 +14,7 @@
 })();
 function atualizaBotaoTema(){
   var b=document.getElementById('themeBtn'); if(!b) return;
-  b.textContent = document.documentElement.getAttribute('data-theme')==='dark' ? '☀️' : '🌙';
+  b.innerHTML = document.documentElement.getAttribute('data-theme')==='dark' ? '<svg class="lu " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>' : '<svg class="lu " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>';
 }
 function toggleTema(){
   var novo = document.documentElement.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
@@ -91,16 +91,107 @@ document.addEventListener('DOMContentLoaded',atualizaBotaoTema);
   .exp-status-col{flex:1;padding:6px 4px;text-align:center}
   .exp-volume{flex:.6;padding:6px;text-align:center;font-weight:700;font-size:10px}
   .exp-status{padding:3px 8px;border-radius:12px;color:#fff;font-weight:600;font-size:10px;display:inline-block}
+
+  /* ===== VISUAL TECH (glass) — bloco único, só aparência ===== */
+  :root{
+    --ink:#0f1b3d; --muted:#5b6b8c; --primary:#2563eb; --primary-dark:#1d4ed8;
+    --surface:rgba(255,255,255,.62); --bg:#eaf1ff; --line:rgba(37,99,235,.18);
+    --heading:#1d4ed8; --link:#1d4ed8; --input-bg:rgba(255,255,255,.80); --btn2-bg:rgba(255,255,255,.55); --btn2-hover:rgba(37,99,235,.10); --soft:rgba(219,230,252,.70);
+    --coleta-bg:#dff7fb; --coleta-line:#a5e8f3; --coleta-ink:#0e5566;
+    --g-fundo: radial-gradient(620px circle at 6% -4%, rgba(59,130,246,.34), transparent 62%),
+      radial-gradient(560px circle at 100% 10%, rgba(139,92,246,.26), transparent 62%),
+      radial-gradient(640px circle at 85% 105%, rgba(34,211,238,.28), transparent 62%),
+      linear-gradient(160deg,#eaf1ff 0%,#f3f0ff 55%,#eafbff 100%);
+    --g-shadow:0 8px 30px rgba(37,99,235,.14), inset 0 1px 0 rgba(255,255,255,.95);
+    --g-border:rgba(255,255,255,.90); --g-thead:rgba(219,230,252,.70); --g-hover:rgba(37,99,235,.07);
+    --g-lista:#f3f6ff; --g-tab-active:#1d4ed8; --g-tab-line:#06b6d4;
+    --g-title:linear-gradient(90deg,#1d4ed8,#7c3aed);
+    --exp-surface:#ffffff; --exp-soft:#e8efff; --exp-head:#1e293b; --exp-odd:#f1f5ff; --exp-even:#e3ebff; --exp-line:#d3def8;
+    color-scheme:light;
+  }
+  :root[data-theme="dark"]{
+    --ink:#e8eefc; --muted:#8a9bbd; --primary:#2563eb; --primary-dark:#1e40af;
+    --surface:rgba(13,22,48,.55); --bg:#050a18; --line:rgba(96,165,250,.24);
+    --heading:#67e8f9; --link:#22d3ee; --input-bg:rgba(8,14,32,.70); --btn2-bg:rgba(13,22,48,.55); --btn2-hover:rgba(34,211,238,.12); --soft:rgba(22,36,78,.70);
+    --coleta-bg:#0f2a3a; --coleta-line:#155e75; --coleta-ink:#a5f3fc;
+    --g-fundo: radial-gradient(620px circle at 8% -4%, rgba(59,130,246,.50), transparent 62%),
+      radial-gradient(560px circle at 100% 8%, rgba(139,92,246,.40), transparent 62%),
+      radial-gradient(640px circle at 85% 105%, rgba(34,211,238,.30), transparent 62%),
+      radial-gradient(520px circle at 0% 95%, rgba(37,99,235,.28), transparent 62%),
+      linear-gradient(160deg,#0a1736 0%,#060c1f 55%,#02040c 100%);
+    --g-shadow:0 10px 34px rgba(0,0,0,.45), inset 0 1px 0 rgba(147,197,253,.14);
+    --g-border:rgba(96,165,250,.24); --g-thead:rgba(12,22,50,.85); --g-hover:rgba(96,165,250,.08);
+    --g-lista:#0a1128; --g-tab-active:#22d3ee; --g-tab-line:#22d3ee;
+    --g-title:linear-gradient(90deg,#ffffff,#9ec5ff,#67e8f9);
+    --exp-surface:#0b1226; --exp-soft:#16244c; --exp-head:#050a18; --exp-odd:#0f1a38; --exp-even:#14224a; --exp-line:#22325f;
+    color-scheme:dark;
+  }
+  html{background:var(--bg)}
+  body{background:transparent}
+  .fundo-glass{position:fixed;inset:0;z-index:0;pointer-events:none;background:var(--g-fundo)}
+  .topbar,.tabs,.tab-content{position:relative;z-index:1}
+  .topbar{z-index:3;padding:10px 14px;margin-bottom:14px;border:1px solid var(--g-border);border-radius:16px;background:var(--surface);box-shadow:var(--g-shadow);-webkit-backdrop-filter:blur(14px) saturate(140%);backdrop-filter:blur(14px) saturate(140%)}
+  .topbar .logo{display:flex;align-items:center;gap:12px;min-width:0}
+  .topbar .logo-ic{flex:0 0 auto;width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(135deg,#2563eb,#7c3aed);box-shadow:0 4px 16px rgba(37,99,235,.40)}
+  .topbar .logo-ic .lu{width:20px;height:20px}
+  .topbar h1{margin:0;font-size:19px;background:var(--g-title);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+  .lu{width:16px;height:16px;flex:0 0 auto;vertical-align:-3px}
+  .theme-btn{display:flex;align-items:center;justify-content:center;width:38px;height:38px;padding:0;border-radius:11px;background:var(--btn2-bg);border:1px solid var(--g-border);color:var(--link);box-shadow:var(--g-shadow)}
+  .theme-btn .lu{width:19px;height:19px}
+  .theme-btn:hover{border-color:var(--link)}
+  .tabs button{display:inline-flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--g-border);box-shadow:var(--g-shadow);-webkit-backdrop-filter:blur(14px) saturate(140%);backdrop-filter:blur(14px) saturate(140%);transition:transform .15s,border-color .15s}
+  .tabs button:hover{transform:translateY(-1px);border-color:var(--link)}
+  .tabs button.active{background:var(--surface);color:var(--g-tab-active);border-color:var(--g-tab-active);box-shadow:0 0 0 1px var(--g-tab-active) inset,0 6px 20px rgba(34,211,238,.18)}
+  [data-theme="dark"] .tabs button.active{text-shadow:0 0 12px rgba(34,211,238,.55)}
+  .card{border:1px solid var(--g-border);border-radius:16px;box-shadow:var(--g-shadow);-webkit-backdrop-filter:blur(14px) saturate(140%);backdrop-filter:blur(14px) saturate(140%)}
+  h3{display:flex;align-items:center;gap:8px}
+  input,select{border-color:var(--line);transition:border-color .15s,box-shadow .15s}
+  input:focus,select:focus{border-color:#3b82f6;box-shadow:0 0 0 3px rgba(59,130,246,.25)}
+  input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid #22d3ee;outline-offset:1px}
+  select option{background:var(--g-lista);color:var(--ink)}
+  button.action:not(.secondary):not(.danger){background:linear-gradient(135deg,#2563eb,#7c3aed);box-shadow:0 4px 14px rgba(37,99,235,.30);transition:filter .15s,box-shadow .15s,transform .15s}
+  button.action:not(.secondary):not(.danger):hover{background:linear-gradient(135deg,#2563eb,#7c3aed);filter:brightness(1.12);box-shadow:0 6px 22px rgba(99,102,241,.50)}
+  button.action.secondary{border-color:#22d3ee;color:var(--link)}
+  [data-theme="light"] button.action.secondary,:root:not([data-theme="dark"]) button.action.secondary{border-color:#3b82f6}
+  button.action.danger{box-shadow:0 4px 14px rgba(214,69,80,.28)}
+  table.list th{background:var(--g-thead)}
+  table.list tbody tr:hover td{background:var(--g-hover)}
+  .cat-banner{background:linear-gradient(135deg,#1d4ed8,#6d28d9)!important}
+  .cat-group table.list{background:var(--surface)}
+  #clientesDisponiveis span{transition:transform .15s,border-color .15s,background .15s}
+  #clientesDisponiveis span:hover{transform:translateY(-2px);background:var(--btn2-hover)}
+  .ordem-item{border:1px solid var(--line)}
+  .ordem-num{background:linear-gradient(135deg,#2563eb,#7c3aed)}
+  .prodpick label:hover{border-color:var(--link);background:var(--btn2-hover)}
+  /* imagem do WhatsApp: cores sólidas (o html2canvas não renderiza vidro) e segue o tema */
+  #exportArea{--surface:var(--exp-surface);--soft:var(--exp-soft);background:var(--exp-surface);color:var(--ink);backdrop-filter:none;-webkit-backdrop-filter:none}
+  .exp-title,.exp-cli{background:linear-gradient(135deg,#1d4ed8,#6d28d9)}
+  .exp-logo{color:var(--heading)}
+  @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+    :root{--surface:#ffffff} :root[data-theme="dark"]{--surface:#0b1226}
+  }
+  @media (max-width:768px){
+    .topbar,.tabs button,.card{-webkit-backdrop-filter:blur(10px) saturate(140%);backdrop-filter:blur(10px) saturate(140%)}
+    .topbar h1{font-size:16px}
+  }
+  @media (prefers-reduced-transparency:reduce){
+    :root{--surface:#ffffff} :root[data-theme="dark"]{--surface:#0b1226}
+    .topbar,.tabs button,.card{-webkit-backdrop-filter:none;backdrop-filter:none}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+  /* ===== fim VISUAL TECH ===== */
 </style>
 </head>
 <body>
 
-<div class="topbar"><h1>Separação de Mercadorias — AP Frutas</h1><button class="theme-btn" id="themeBtn" onclick="toggleTema()" title="Alternar tema claro/escuro">🌙</button></div>
+<div class="fundo-glass" aria-hidden="true"></div>
+
+<div class="topbar"><div class="logo"><span class="logo-ic"><svg class="lu " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg></span><h1>Separação de Mercadorias — AP Frutas</h1></div><button class="theme-btn" id="themeBtn" onclick="toggleTema()" title="Alternar tema claro/escuro"><svg class="lu " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></button></div>
 
 <div class="tabs">
-  <button class="tab-btn active" data-tab="separacao">Separação do dia</button>
-  <button class="tab-btn" data-tab="clientes">Cadastro de Clientes</button>
-  <button class="tab-btn" data-tab="produtos">Cadastro de Produtos</button>
+  <button class="tab-btn active" data-tab="separacao"><svg class="lu " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></svg>Separação do dia</button>
+  <button class="tab-btn" data-tab="clientes"><svg class="lu " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Cadastro de Clientes</button>
+  <button class="tab-btn" data-tab="produtos"><svg class="lu " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>Cadastro de Produtos</button>
 </div>
 
 <div id="tab-separacao" class="tab-content">
